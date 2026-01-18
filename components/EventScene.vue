@@ -1,29 +1,38 @@
 <template>
-  <div class="h-screen flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-6">
-    <div class="card-container p-8 max-w-2xl w-full">
-      <h2 class="text-3xl font-bold mb-4">{{ currentEvent?.title || 'Event' }}</h2>
+  <div class="relative h-screen flex items-center justify-center overflow-hidden p-8">
+    <!-- Background Image -->
+    <div
+      class="scene-bg"
+      :style="`background-image: url('${getEventBackground()}')`"
+    ></div>
+    <div class="scene-overlay"></div>
 
-      <div v-if="currentPhase" class="space-y-6">
+    <div class="relative z-10 card-container-light p-10 max-w-3xl w-full">
+      <h2 class="text-5xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-purple-400 to-purple-200">
+        {{ currentEvent?.title || 'Event' }}
+      </h2>
+
+      <div v-if="currentPhase" class="space-y-8">
         <!-- Phase Text -->
-        <p class="text-lg text-slate-300">{{ currentPhase.text }}</p>
+        <p class="text-xl text-slate-100 leading-relaxed">{{ currentPhase.text }}</p>
 
         <!-- Skill Check Result -->
-        <div v-if="checkResult" class="p-4 rounded-lg" :class="checkResult.success ? 'bg-green-900/30' : 'bg-red-900/30'">
-          <p class="font-bold">{{ checkResult.success ? 'Success!' : 'Failed!' }}</p>
-          <p class="text-sm">Rolled: {{ checkResult.roll }} + {{ checkResult.modifier }} = {{ checkResult.total }} (DC: {{ checkResult.dc }})</p>
+        <div v-if="checkResult" class="p-6 rounded-xl border-2" :class="checkResult.success ? 'bg-green-900/40 border-green-500/50' : 'bg-red-900/40 border-red-500/50'">
+          <p class="font-bold text-2xl mb-2">{{ checkResult.success ? 'Success!' : 'Failed!' }}</p>
+          <p class="text-lg">Rolled: {{ checkResult.roll }} + {{ checkResult.modifier }} = {{ checkResult.total }} (DC: {{ checkResult.dc }})</p>
         </div>
 
         <!-- Options -->
-        <div class="space-y-3">
+        <div class="space-y-4">
           <button
             v-for="option in currentPhase.options"
             :key="option.id"
             @click="selectOption(option)"
-            class="btn-primary w-full text-left p-4 flex flex-col"
+            class="btn-primary w-full text-left p-6 flex flex-col hover:scale-102 transition-transform"
           >
-            <span class="font-bold">{{ option.label }}</span>
-            <span class="text-sm text-slate-300">{{ option.description }}</span>
-            <span v-if="option.check" class="text-xs text-blue-400 mt-1">
+            <span class="font-bold text-xl mb-2">{{ option.label }}</span>
+            <span class="text-base text-slate-200">{{ option.description }}</span>
+            <span v-if="option.check" class="text-sm text-blue-300 mt-2 font-semibold">
               Requires: {{ option.check.stat.toUpperCase() }} check (DC {{ option.check.dc }})
             </span>
           </button>
@@ -156,6 +165,18 @@ function applyRewardsAndEnd(option: EventOption) {
   setTimeout(() => {
     emit('event-end')
   }, 1000)
+}
+
+function getEventBackground(): string {
+  // Cycle through different dungeon backgrounds for variety
+  const backgrounds = [
+    '/images/u4419938122_Dungeon_passage_of_a_warm_late-medieval_stone_d_bc4c2c9f-a321-47b7-8e95-9f60c69b81f9_3.png',
+    '/images/u4419938122_Interior_warehouse_space_of_a_warm_late-medieva_4dda9fdf-4fe0-4aa5-b89f-3f60dd61b2cc_0.png',
+    '/images/u4419938122_Dungeon_passage_of_a_warm_late-medieval_stone_d_bc4c2c9f-a321-47b7-8e95-9f60c69b81f9_0.png',
+    '/images/u4419938122_Wide_stone_bridge_corridor_of_a_warm_late-medie_d54c2757-ccf2-4c56-93cc-fcdf8b3b5d2a_1.png'
+  ]
+  const index = currentEvent.value ? currentEvent.value.id.charCodeAt(0) % backgrounds.length : 0
+  return backgrounds[index]
 }
 
 onMounted(() => {

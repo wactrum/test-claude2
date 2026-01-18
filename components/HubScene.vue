@@ -1,61 +1,68 @@
 <template>
-  <div class="h-screen flex flex-col bg-slate-900/50 backdrop-blur-sm">
+  <div class="relative h-screen flex flex-col overflow-hidden">
+    <!-- Background Image -->
+    <div
+      class="scene-bg"
+      style="background-image: url('/images/u4419938122_Warm_late-medieval_city_around_a_large_stone_chas_3f0ce0e3-7c84-4892-9950-f138f72c7ff6_0.png')"
+    ></div>
+    <div class="scene-overlay"></div>
+
     <!-- Header -->
-    <div class="p-6 border-b border-slate-700">
+    <div class="relative z-10 p-8 border-b border-amber-600/30 bg-slate-900/60 backdrop-blur-md">
       <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold">The Hub</h1>
-        <div class="flex gap-6 text-lg">
-          <div class="flex items-center gap-2">
-            <span class="text-yellow-400">●</span>
-            <span>{{ partyStore.gold }} Gold</span>
+        <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200">The Hub</h1>
+        <div class="flex gap-8 text-xl">
+          <div class="flex items-center gap-3 px-6 py-3 bg-amber-950/50 rounded-xl border border-amber-600/30">
+            <span class="text-amber-400 font-bold">◈</span>
+            <span class="font-semibold text-amber-200">{{ partyStore.gold }} Gold</span>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-blue-400">●</span>
-            <span>{{ partyStore.supplies }} Supplies</span>
+          <div class="flex items-center gap-3 px-6 py-3 bg-blue-950/50 rounded-xl border border-blue-600/30">
+            <span class="text-blue-400 font-bold">▪</span>
+            <span class="font-semibold text-blue-200">{{ partyStore.supplies }} Supplies</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex">
+    <div class="relative z-10 flex-1 flex">
       <!-- Left Menu -->
-      <div class="w-64 border-r border-slate-700 p-4 space-y-2">
+      <div class="w-80 border-r border-amber-600/20 p-6 space-y-3 bg-slate-900/40 backdrop-blur-sm">
         <button
           @click="activeTab = 'party'"
-          :class="[activeTab === 'party' ? 'btn-primary' : 'btn-secondary', 'w-full']"
+          :class="[activeTab === 'party' ? 'btn-primary' : 'btn-secondary', 'w-full py-4 text-lg']"
         >
           Party
         </button>
         <button
           @click="activeTab = 'contracts'"
-          :class="[activeTab === 'contracts' ? 'btn-primary' : 'btn-secondary', 'w-full']"
+          :class="[activeTab === 'contracts' ? 'btn-primary' : 'btn-secondary', 'w-full py-4 text-lg']"
         >
           Contracts
         </button>
         <button
           @click="activeTab = 'shop'"
-          :class="[activeTab === 'shop' ? 'btn-primary' : 'btn-secondary', 'w-full']"
+          :class="[activeTab === 'shop' ? 'btn-primary' : 'btn-secondary', 'w-full py-4 text-lg']"
         >
           Shop
         </button>
         <button
           @click="activeTab = 'craft'"
-          :class="[activeTab === 'craft' ? 'btn-primary' : 'btn-secondary', 'w-full']"
+          :class="[activeTab === 'craft' ? 'btn-primary' : 'btn-secondary', 'w-full py-4 text-lg']"
         >
           Craft
         </button>
         <button
           @click="activeTab = 'lore'"
-          :class="[activeTab === 'lore' ? 'btn-primary' : 'btn-secondary', 'w-full']"
+          :class="[activeTab === 'lore' ? 'btn-primary' : 'btn-secondary', 'w-full py-4 text-lg']"
         >
           Lore Archive
         </button>
 
-        <div class="pt-4 border-t border-slate-700">
+        <div class="pt-6 border-t border-amber-600/30">
           <button
             @click="enterDungeon"
-            class="btn-primary w-full py-3 glow-effect"
+            class="btn-primary w-full py-5 text-xl glow-effect"
             :disabled="partyStore.aliveCharacters.length === 0"
           >
             Enter Dungeon
@@ -64,19 +71,19 @@
       </div>
 
       <!-- Content Area -->
-      <div class="flex-1 p-6 overflow-y-auto">
+      <div class="flex-1 p-8 overflow-y-auto bg-slate-900/20 backdrop-blur-sm">
         <!-- Party Tab -->
-        <div v-if="activeTab === 'party'" class="space-y-4">
-          <h2 class="text-2xl font-bold mb-4">Your Party</h2>
+        <div v-if="activeTab === 'party'" class="space-y-6">
+          <h2 class="text-4xl font-bold mb-6 text-slate-100">Your Party</h2>
 
-          <div v-if="partyStore.characters.length === 0" class="text-center py-12">
-            <p class="text-slate-400 mb-4">No characters in your party</p>
-            <button @click="createParty" class="btn-primary">
+          <div v-if="partyStore.characters.length === 0" class="text-center py-16">
+            <p class="text-slate-300 text-xl mb-6">No characters in your party</p>
+            <button @click="createParty" class="btn-primary py-4 px-8 text-lg">
               Create Party
             </button>
           </div>
 
-          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <CharacterCard
               v-for="character in partyStore.characters"
               :key="character.id"
@@ -86,86 +93,86 @@
         </div>
 
         <!-- Contracts Tab -->
-        <div v-else-if="activeTab === 'contracts'" class="space-y-4">
-          <h2 class="text-2xl font-bold mb-4">Contracts</h2>
-          <p class="text-sm text-slate-400 mb-4">Accept contracts to earn rewards. Max 2 active.</p>
+        <div v-else-if="activeTab === 'contracts'" class="space-y-6">
+          <h2 class="text-4xl font-bold mb-6 text-slate-100">Contracts</h2>
+          <p class="text-lg text-slate-300 mb-6">Accept contracts to earn rewards. Max 2 active.</p>
 
-          <div class="space-y-3">
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Clear the Goblin Den</h3>
-              <p class="text-sm text-slate-400 mb-2">Defeat 10 goblins</p>
+          <div class="space-y-4">
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-xl mb-3">Clear the Goblin Den</h3>
+              <p class="text-base text-slate-300 mb-4">Defeat 10 goblins</p>
               <div class="flex justify-between items-center">
-                <span class="text-yellow-400">Reward: 100 Gold</span>
-                <button class="btn-primary text-sm px-3 py-1">Accept</button>
+                <span class="text-amber-400 text-lg font-semibold">Reward: 100 Gold</span>
+                <button class="btn-primary px-6 py-3">Accept</button>
               </div>
             </div>
 
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Explore Deep</h3>
-              <p class="text-sm text-slate-400 mb-2">Reach floor 3</p>
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-xl mb-3">Explore Deep</h3>
+              <p class="text-base text-slate-300 mb-4">Reach floor 3</p>
               <div class="flex justify-between items-center">
-                <span class="text-yellow-400">Reward: 150 Gold</span>
-                <button class="btn-primary text-sm px-3 py-1">Accept</button>
+                <span class="text-amber-400 text-lg font-semibold">Reward: 150 Gold</span>
+                <button class="btn-primary px-6 py-3">Accept</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Shop Tab -->
-        <div v-else-if="activeTab === 'shop'" class="space-y-4">
-          <h2 class="text-2xl font-bold mb-4">Shop</h2>
-          <p class="text-sm text-slate-400 mb-4">Buy cards and items with gold</p>
+        <div v-else-if="activeTab === 'shop'" class="space-y-6">
+          <h2 class="text-4xl font-bold mb-6 text-slate-100">Shop</h2>
+          <p class="text-lg text-slate-300 mb-6">Buy cards and items with gold</p>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Healing Potion</h3>
-              <p class="text-xs text-slate-400 mb-3">Restore 30 HP</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-lg mb-3">Healing Potion</h3>
+              <p class="text-base text-slate-300 mb-4">Restore 30 HP</p>
               <div class="flex justify-between items-center">
-                <span class="text-yellow-400">20 Gold</span>
-                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+                <span class="text-amber-400 font-semibold">20 Gold</span>
+                <button class="btn-primary px-4 py-2">Buy</button>
               </div>
             </div>
 
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Power Strike Card</h3>
-              <p class="text-xs text-slate-400 mb-3">Deal 15 damage</p>
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-lg mb-3">Power Strike Card</h3>
+              <p class="text-base text-slate-300 mb-4">Deal 15 damage</p>
               <div class="flex justify-between items-center">
-                <span class="text-yellow-400">75 Gold</span>
-                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+                <span class="text-amber-400 font-semibold">75 Gold</span>
+                <button class="btn-primary px-4 py-2">Buy</button>
               </div>
             </div>
 
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Supplies Pack</h3>
-              <p class="text-xs text-slate-400 mb-3">+3 Supplies</p>
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-lg mb-3">Supplies Pack</h3>
+              <p class="text-base text-slate-300 mb-4">+3 Supplies</p>
               <div class="flex justify-between items-center">
-                <span class="text-yellow-400">30 Gold</span>
-                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+                <span class="text-amber-400 font-semibold">30 Gold</span>
+                <button class="btn-primary px-4 py-2">Buy</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Craft Tab -->
-        <div v-else-if="activeTab === 'craft'" class="space-y-4">
-          <h2 class="text-2xl font-bold mb-4">Crafting</h2>
-          <p class="text-sm text-slate-400 mb-4">Craft items using materials and professions</p>
+        <div v-else-if="activeTab === 'craft'" class="space-y-6">
+          <h2 class="text-4xl font-bold mb-6 text-slate-100">Crafting</h2>
+          <p class="text-lg text-slate-300 mb-6">Craft items using materials and professions</p>
 
-          <div class="space-y-3">
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Iron Sword</h3>
-              <p class="text-xs text-slate-400 mb-2">Requires: Blacksmith profession</p>
-              <p class="text-xs text-slate-300 mb-3">Materials: Iron Ore x2, Gold: 50</p>
-              <button class="btn-primary text-sm px-3 py-1" disabled>
+          <div class="space-y-4">
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-xl mb-3">Iron Sword</h3>
+              <p class="text-base text-slate-300 mb-2">Requires: Blacksmith profession</p>
+              <p class="text-base text-slate-200 mb-4">Materials: Iron Ore x2, Gold: 50</p>
+              <button class="btn-primary px-4 py-2" disabled>
                 Craft (Missing Materials)
               </button>
             </div>
 
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">Health Elixir</h3>
-              <p class="text-xs text-slate-400 mb-2">Requires: Alchemist profession</p>
-              <p class="text-xs text-slate-300 mb-3">Materials: Herbs x3, Gold: 30</p>
-              <button class="btn-primary text-sm px-3 py-1" disabled>
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-xl mb-3">Health Elixir</h3>
+              <p class="text-base text-slate-300 mb-2">Requires: Alchemist profession</p>
+              <p class="text-base text-slate-200 mb-4">Materials: Herbs x3, Gold: 30</p>
+              <button class="btn-primary px-4 py-2" disabled>
                 Craft (Missing Materials)
               </button>
             </div>
@@ -173,14 +180,14 @@
         </div>
 
         <!-- Lore Tab -->
-        <div v-else-if="activeTab === 'lore'" class="space-y-4">
-          <h2 class="text-2xl font-bold mb-4">Lore Archive</h2>
-          <p class="text-sm text-slate-400 mb-4">Discover the secrets of the dungeon</p>
+        <div v-else-if="activeTab === 'lore'" class="space-y-6">
+          <h2 class="text-4xl font-bold mb-6 text-slate-100">Lore Archive</h2>
+          <p class="text-lg text-slate-300 mb-6">Discover the secrets of the dungeon</p>
 
-          <div class="space-y-3">
-            <div class="card-container p-4">
-              <h3 class="font-bold mb-2">The Ancient Ruins</h3>
-              <p class="text-sm text-slate-300">
+          <div class="space-y-4">
+            <div class="card-container-light p-6">
+              <h3 class="font-bold text-xl mb-4">The Ancient Ruins</h3>
+              <p class="text-lg text-slate-200 leading-relaxed">
                 Long ago, these halls were home to a prosperous civilization.
                 What caused their downfall remains a mystery...
               </p>

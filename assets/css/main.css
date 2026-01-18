@@ -4,37 +4,209 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100 font-sans;
+    @apply bg-slate-900 text-slate-100 font-sans antialiased;
+    font-size: 16px;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl font-bold tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed;
   }
 }
 
 @layer components {
-  /* Game UI Components */
-  .card-container {
-    @apply bg-slate-800/80 backdrop-blur-sm rounded-lg border border-slate-700 shadow-xl;
+  /* Background overlays for images */
+  .scene-bg {
+    @apply absolute inset-0 bg-cover bg-center bg-no-repeat;
   }
 
+  .scene-overlay {
+    @apply absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80;
+  }
+
+  /* Game UI Components */
+  .card-container {
+    @apply bg-slate-800/90 backdrop-blur-md rounded-xl border-2 border-slate-600/50 shadow-2xl;
+    @apply transition-all duration-300 hover:border-slate-500/80 hover:shadow-slate-500/20;
+  }
+
+  .card-container-light {
+    @apply bg-slate-700/90 backdrop-blur-md rounded-xl border-2 border-slate-500/60 shadow-2xl;
+    @apply transition-all duration-300;
+  }
+
+  /* Buttons - larger and more prominent */
   .btn-primary {
-    @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200;
+    @apply px-6 py-3 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700;
+    @apply hover:from-blue-500 hover:to-blue-600 text-white rounded-xl;
+    @apply transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/30;
+    @apply hover:scale-105 active:scale-95;
   }
 
   .btn-secondary {
-    @apply px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors duration-200;
+    @apply px-6 py-3 text-lg font-semibold bg-slate-700/90 backdrop-blur-sm;
+    @apply hover:bg-slate-600/90 text-white rounded-xl border-2 border-slate-600;
+    @apply transition-all duration-300 shadow-lg hover:shadow-xl;
+    @apply hover:scale-105 active:scale-95;
   }
 
   .btn-danger {
-    @apply px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200;
+    @apply px-6 py-3 text-lg font-semibold bg-gradient-to-r from-red-600 to-red-700;
+    @apply hover:from-red-500 hover:to-red-600 text-white rounded-xl;
+    @apply transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-red-500/30;
+    @apply hover:scale-105 active:scale-95;
   }
 
+  .btn-success {
+    @apply px-6 py-3 text-lg font-semibold bg-gradient-to-r from-green-600 to-green-700;
+    @apply hover:from-green-500 hover:to-green-600 text-white rounded-xl;
+    @apply transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/30;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  /* Stats and info boxes */
   .stat-box {
-    @apply flex flex-col items-center p-2 bg-slate-700/50 rounded-md;
+    @apply flex flex-col items-center p-3 bg-slate-700/70 backdrop-blur-sm rounded-lg;
+    @apply border border-slate-600/50 min-w-[4rem];
   }
 
+  .info-panel {
+    @apply bg-slate-800/90 backdrop-blur-md rounded-xl p-6 border-2 border-slate-600/50;
+    @apply shadow-2xl;
+  }
+
+  /* Glow and highlight effects */
   .glow-effect {
-    @apply shadow-lg shadow-blue-500/50;
+    @apply shadow-2xl shadow-blue-500/40;
+    animation: pulse-glow 2s ease-in-out infinite;
   }
 
+  .glow-gold {
+    @apply shadow-2xl shadow-yellow-500/40;
+  }
+
+  .glow-red {
+    @apply shadow-2xl shadow-red-500/40;
+  }
+
+  .glow-green {
+    @apply shadow-2xl shadow-green-500/40;
+  }
+
+  /* HP and resource bars */
   .hp-bar {
-    @apply h-2 bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-300;
+    @apply h-3 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-full;
+    @apply transition-all duration-500 shadow-lg shadow-red-500/50;
+  }
+
+  .energy-bar {
+    @apply h-3 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 rounded-full;
+    @apply transition-all duration-500 shadow-lg shadow-blue-500/50;
+  }
+
+  /* Cards - larger and more prominent */
+  .game-card {
+    @apply bg-slate-800/95 backdrop-blur-md rounded-xl p-4 min-w-[12rem];
+    @apply border-2 border-slate-600/60 shadow-xl;
+    @apply transition-all duration-300 cursor-pointer;
+    @apply hover:scale-110 hover:border-slate-400 hover:shadow-2xl hover:z-10;
+  }
+
+  .game-card-selected {
+    @apply ring-4 ring-blue-500 ring-offset-2 ring-offset-slate-900;
+  }
+
+  /* Node cards for dungeon */
+  .node-card {
+    @apply bg-slate-800/90 backdrop-blur-md rounded-xl p-4 w-44;
+    @apply border-2 border-slate-600/50 shadow-xl;
+    @apply transition-all duration-300 cursor-pointer;
+    @apply hover:scale-105 hover:border-slate-400 hover:shadow-2xl;
+  }
+
+  .node-card-current {
+    @apply ring-4 ring-blue-500 border-blue-500;
+  }
+
+  .node-card-completed {
+    @apply opacity-70 border-green-600/50;
+  }
+
+  .node-card-unavailable {
+    @apply opacity-40 cursor-not-allowed hover:scale-100;
+  }
+
+  /* Image containers */
+  .character-portrait {
+    @apply w-full h-48 bg-cover bg-center rounded-lg mb-3;
+    @apply border-2 border-slate-600/50 shadow-lg;
+  }
+
+  .enemy-portrait {
+    @apply w-full h-40 bg-cover bg-center rounded-lg mb-2;
+    @apply border-2 border-red-600/30 shadow-lg shadow-red-500/20;
+  }
+
+  .event-image {
+    @apply w-full h-64 md:h-96 bg-cover bg-center rounded-xl mb-6;
+    @apply border-2 border-slate-600/50 shadow-2xl;
+  }
+
+  /* Text styles */
+  .text-gold {
+    @apply text-yellow-400 font-semibold;
+  }
+
+  .text-damage {
+    @apply text-red-400 font-bold;
+  }
+
+  .text-heal {
+    @apply text-green-400 font-bold;
+  }
+
+  .label-badge {
+    @apply inline-block px-3 py-1 rounded-full text-sm font-semibold;
+    @apply bg-slate-700/80 border border-slate-600;
+  }
+
+  /* Animations */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
   }
 }
