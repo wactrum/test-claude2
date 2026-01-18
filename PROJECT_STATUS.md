@@ -4,168 +4,192 @@
 
 A D&D-inspired card-based roguelike RPG built with Nuxt 4, TypeScript, Pixi.js, and Tailwind CSS.
 
-## Current Implementation Status (v0.1 - Foundation)
+**Current Version**: v1.0.0 MVP
+**Status**: ✅ MVP COMPLETE - Ready for Testing
 
-### ✅ Completed
+---
 
-#### Core Architecture
-- **Nuxt 4 SPA** - Full TypeScript setup with strict mode
-- **Pixi.js Integration** - Scene manager with canvas/UI separation
-- **Tailwind CSS v4** - UI layer styling system
-- **Pinia State Management** - 6 stores for game state
+## 🎮 Playable MVP Features
 
-#### TypeScript Types
-All game entities have complete type definitions:
-- Character (with stats, cards, inventory)
-- Card (40+ cards with effects and upgrades)
-- Combat (turn-based system with initiative)
-- Event (multi-phase with skill checks)
-- Dungeon (node-based map structure)
-- Save/Load (versioned save system)
+### ✅ Complete Core Gameplay Loop
 
-#### Game Data
-- **4 Races**: Human, Elf, Dwarf, Halfling (with racial bonuses)
-- **4 Classes**: Warrior, Rogue, Cleric, Wizard (each with 10 starting cards)
-- **4 Professions**: Blacksmith, Alchemist, Scholar, Ranger
-- **40+ Cards**: Fully defined with costs, effects, and upgrade paths
+The game is fully playable from start to finish with all essential systems implemented:
 
-#### Pinia Stores
-1. **partyStore** - Party management, gold, supplies, inventory
-2. **hubStore** - Contracts, shop, crafting recipes
-3. **dungeonStore** - Map navigation, node tracking
-4. **combatStore** - Combat state, turn order, card drawing
-5. **runStore** - Current run tracking (seed, difficulty, floor)
-6. **gameStore** - Overall progress, scene management
+#### Main Menu
+- New Game / Continue Game
+- Save file detection
+- Settings panel (volume controls)
 
-#### UI Components
-- **MenuScene** - Main menu with settings
-- **HubScene** - Party view, tabs for contracts/shop/craft/lore
-- **CharacterCard** - Full character display with stats and HP
-- **Placeholder scenes** for Dungeon, Combat, Events
+#### Hub (Town)
+- Party management (view 4 characters with stats, HP, decks)
+- Shop (purchasable items UI)
+- Crafting (profession-based recipes UI)
+- Contracts (quest system UI)
+- Lore Archive (story entries)
+- Enter Dungeon button
 
-### 🚧 In Progress / Next Steps
+#### Dungeon Exploration
+- **Procedural Generation**: Seeded RNG for reproducible dungeons
+- **8 Node Types**:
+  - Combat: Fight 2-4 normal enemies
+  - Elite Combat: Fight 1-2 elite enemies
+  - Boss: Fight the floor boss (Goblin King)
+  - Event: Skill check-based encounters (4 events)
+  - Resource: Gain 20-50 gold
+  - Rest: Heal 50% HP (costs 1 supply)
+  - Portal: Extract to hub (end run)
+  - Lore: Unlock story entries
+- **Visual Map**: Column-based layout with node cards
+- **Navigation**: Click nodes to progress
 
-#### Priority 1: Core Gameplay Loop
-1. **Dungeon Generation**
-   - Implement procedural map generation with seed
-   - Node placement algorithm (combat, events, rest, portal, boss)
-   - Path generation ensuring reachability
-   - Visual rendering in Pixi.js
+#### Turn-Based Combat
+- **Initiative System**: D20 + DEX modifier determines turn order
+- **Energy System**: 3 energy per turn for playing cards
+- **Card Playing**: Click card → click target → card plays
+- **40+ Unique Cards**: Across 4 classes (Warrior, Rogue, Cleric, Wizard)
+- **Card Effects**:
+  - Damage with stat scaling
+  - Healing
+  - Buffs/Debuffs
+  - Block (damage reduction)
+  - Card draw
+- **Enemy AI**: Cooldown-based ability usage
+- **8 Enemy Types**: Goblin, Orc, Skeleton, Cultist, Wolf, Champions, Mage, Boss
+- **Status Effects**: Duration-based buffs and debuffs
+- **Victory/Defeat**: Clear rewards or return to hub
 
-2. **Combat System**
-   - Full card playing mechanics
-   - Energy system (3 energy per turn)
-   - Damage calculation with stat scaling
-   - Status effects (buffs/debuffs)
-   - Enemy AI with ability patterns
-   - Victory/defeat conditions with rewards
+#### Event System
+- **Skill Checks**: D20 + stat modifier vs DC
+- **Multi-Phase Events**: Branching paths based on success/failure
+- **Difficulty Integration**: DC modifiers from difficulty setting
+- **Rewards/Penalties**: Gold, items, healing, damage
+- **4 Complete Events**:
+  - Mysterious Merchant (Charisma check)
+  - Trapped Chest (Dexterity/Strength check)
+  - Ancient Shrine (Wisdom check)
+  - Wandering Healer (no check)
 
-3. **Event System**
-   - Event data (JSON format)
-   - Skill check mechanics (D20 + modifiers vs DC)
-   - Multi-phase event flow
-   - Character selection for checks
-   - Success/failure outcomes
+#### Save/Load System
+- **Auto-Save**: Every 30 seconds in hub
+- **Manual Save**: When entering dungeon
+- **localStorage**: Browser-based persistence
+- **Versioned**: Save file format v1.0.0
+- **Load on Continue**: Restores all progress
 
-#### Priority 2: Meta Systems
-4. **Contracts System**
-   - Contract generation
-   - Progress tracking
-   - Reward claiming
-   - Hub integration
+---
 
-5. **Shop System**
-   - Card shop with rarity-based pricing
-   - Card upgrade system
-   - Consumable items (potions, scrolls)
-   - Inventory management
+## 📦 Technical Implementation
 
-6. **Crafting System**
-   - Recipe unlocking via professions
-   - Material gathering
-   - Item crafting UI
+### Architecture
+- **Nuxt 4 SPA** with TypeScript (strict mode)
+- **Pixi.js v8** for game rendering (WebGL/Canvas)
+- **Tailwind CSS v4** for UI styling
+- **Pinia** for state management
+- **Modular Design**: All game data in JSON-compatible formats
 
-#### Priority 3: Progression & Polish
-7. **Difficulty System**
-   - Apply modifiers to DC, damage, rewards
-   - Difficulty selection UI
-
-8. **Boss Encounters**
-   - Boss design (1 per floor)
-   - Unique abilities and mechanics
-   - Lore unlocks on defeat
-
-9. **Save/Load System**
-   - LocalStorage implementation
-   - Auto-save on node completion
-   - Manual save option
-   - Load game validation
-
-10. **Polish & Balance**
-    - Card balance testing
-    - Enemy difficulty tuning
-    - Visual effects (Pixi.js particles)
-    - Sound effects and music integration
-
-### 📁 Project Structure
+### Code Organization
 
 ```
 /
-├── app.vue                 # Main app entry
-├── nuxt.config.ts          # Nuxt configuration
-├── tsconfig.json           # TypeScript config
-├── package.json            # Dependencies
+├── components/        # Vue components for all scenes
+│   ├── MenuScene.vue
+│   ├── HubScene.vue
+│   ├── DungeonScene.vue
+│   ├── CombatScene.vue
+│   ├── EventScene.vue
+│   ├── CharacterCard.vue
+│   ├── CardInHand.vue
+│   └── DungeonNodeCard.vue
 │
-├── assets/
-│   └── css/main.css        # Tailwind + custom styles
+├── stores/           # Pinia state management
+│   ├── party.ts      # Characters, gold, supplies
+│   ├── hub.ts        # Contracts, shop, crafting
+│   ├── dungeon.ts    # Map navigation
+│   ├── combat.ts     # Combat state, card playing
+│   ├── run.ts        # Current run (seed, difficulty)
+│   └── game.ts       # Overall progress
 │
-├── components/
-│   ├── MenuScene.vue       # Main menu
-│   ├── HubScene.vue        # Hub/town
-│   ├── DungeonScene.vue    # Dungeon map (placeholder)
-│   ├── CombatScene.vue     # Combat (placeholder)
-│   ├── EventScene.vue      # Events (placeholder)
-│   └── CharacterCard.vue   # Character display
+├── types/            # TypeScript definitions
+│   ├── character.ts
+│   ├── card.ts
+│   ├── combat.ts
+│   ├── event.ts
+│   ├── dungeon.ts
+│   ├── game.ts
+│   └── save.ts
 │
-├── composables/
-│   └── usePixi.ts          # Pixi.js scene manager
+├── data/             # Game content
+│   ├── races.ts      # 4 races with bonuses
+│   ├── classes.ts    # 4 classes with starting decks
+│   ├── professions.ts # 4 professions
+│   ├── cards.ts      # 40+ cards with effects
+│   ├── enemies.ts    # 8 enemy types + abilities
+│   └── events.ts     # 4 events with phases
 │
-├── data/
-│   ├── races.ts            # Race definitions
-│   ├── classes.ts          # Class definitions
-│   ├── professions.ts      # Profession definitions
-│   ├── cards.ts            # All card data
-│   └── index.ts            # Exports
+├── utils/            # Game logic
+│   ├── seededRandom.ts     # RNG for dungeon gen
+│   ├── dungeonGenerator.ts # Procedural map
+│   ├── cardEffects.ts      # Card effect application
+│   └── saveLoad.ts         # Save/load system
 │
-├── pages/
-│   └── index.vue           # Main game page
-│
-├── stores/
-│   ├── party.ts            # Party management
-│   ├── hub.ts              # Hub state
-│   ├── dungeon.ts          # Dungeon state
-│   ├── combat.ts           # Combat state
-│   ├── run.ts              # Run tracking
-│   └── game.ts             # Overall game state
-│
-└── types/
-    ├── character.ts        # Character types
-    ├── card.ts             # Card types
-    ├── combat.ts           # Combat types
-    ├── event.ts            # Event types
-    ├── dungeon.ts          # Dungeon types
-    ├── game.ts             # Game types
-    ├── save.ts             # Save types
-    └── index.ts            # Central exports
+└── pages/
+    └── index.vue     # Main game router
 ```
 
-### 🎮 Running the Project
+### State Flow
+
+```
+Menu → Hub → Dungeon → [Combat/Event/etc] → Hub (loop)
+                ↓
+            Save/Load
+```
+
+---
+
+## 🎯 What Works
+
+✅ **Complete Gameplay Loop**: Menu → Hub → Dungeon → Combat → Victory → Hub
+✅ **Dungeon Generation**: Procedural, seeded, 8 column layout
+✅ **Combat System**: Turn-based, energy, cards, targeting, AI
+✅ **Event System**: Skill checks, multi-phase, D20 rolls
+✅ **Save/Load**: Auto-save, manual save, load on continue
+✅ **All Node Types**: Combat, Elite, Boss, Event, Resource, Rest, Portal, Lore
+✅ **Character System**: 4 races, 4 classes, 4 professions
+✅ **Card System**: 40+ cards with stat scaling
+✅ **Enemy System**: 8 types with unique abilities
+✅ **Difficulty System**: DC and damage modifiers
+✅ **Victory/Defeat**: Proper flow with rewards
+
+---
+
+## ⚠️ Known Limitations (MVP Scope)
+
+### UI-Only Features (No Backend Logic Yet)
+- Shop purchases (shows items but can't buy)
+- Crafting recipes (shows but can't craft)
+- Contract acceptance (shows but doesn't track)
+
+### Simplified Systems
+- AI uses first available ability (no advanced strategy)
+- Events use first alive character for checks (no selection)
+- No card upgrades (system designed but not implemented)
+- No character leveling (XP awarded but not used)
+
+### Missing Polish
+- No visual effects or animations
+- No sound effects or music
+- No tutorial or help system
+- Basic error handling
+
+---
+
+## 🚀 How to Run
 
 ```bash
 # Install dependencies
 npm install
 
-# Run development server
+# Development server
 npm run dev
 
 # Build for production
@@ -175,69 +199,113 @@ npm run build
 npm run preview
 ```
 
-### 🎯 Design Principles
+Visit `http://localhost:3000`
 
-1. **Minimalist UI** - Clean, readable interface over visual noise
-2. **D&D Mechanics** - D20 rolls, skill checks, character stats
-3. **Tactical Depth** - Card synergies, positioning, resource management
-4. **Roguelike Replayability** - Procedural generation, permadeath optional
-5. **Role-play Logic** - Flexible event outcomes based on character abilities
+---
 
-### 📊 Technical Specifications
+## 🧪 Testing the Game
 
-- **Framework**: Nuxt 4 (SPA mode)
-- **Language**: TypeScript (strict mode)
-- **Rendering**: Pixi.js v8 (WebGL/Canvas)
-- **Styling**: Tailwind CSS v4
-- **State**: Pinia
-- **Package Manager**: npm
+1. **Start**: Click "New Game" on menu
+2. **Hub**: Party is auto-created with 4 characters
+3. **Enter Dungeon**: Click "Enter Dungeon"
+4. **Navigate**: Click available nodes (blue border = current, green checkmark = completed)
+5. **Combat**:
+   - Click card in hand
+   - Click enemy to target (if needed)
+   - Click "End Turn" when done
+6. **Events**: Click choices, see dice rolls
+7. **Extract**: Use Portal nodes or Return to Hub button
+8. **Save**: Auto-saves in hub, manual save before dungeon
 
-### 🐛 Known Issues
+---
 
-- Dev server shows TypeScript type checking in watch mode (non-blocking)
-- Placeholder scenes need full implementation
-- No enemy data defined yet
-- No event data defined yet
-- Save/load not implemented
+## 📊 Game Balance
 
-### 🚀 MVP Roadmap
+### Character Stats
+- All characters start with 50 HP, 10 in each stat
+- Each class has 10 unique starting cards
+- Race bonuses grant +1-2 to specific stats
 
-**Phase 1** (Current): Foundation ✅
-- Project setup
-- Type system
-- Base UI
-- Data structures
+### Combat
+- 3 energy per turn
+- Cards cost 1-3 energy
+- Damage scales with STR/DEX/INT/WIS
+- Enemies have 30-150 HP (normal to boss)
+- Enemy damage: 5-15 per attack
 
-**Phase 2**: Core Loop 🚧
-- Dungeon generation
-- Combat system
-- Event system
+### Economy
+- Start with 100 gold, 10 supplies
+- Combat rewards: 5-50 gold per fight
+- Resource nodes: 20-50 gold
+- Rest costs: 1 supply
+- Heal amount: 50% max HP
 
-**Phase 3**: Meta Systems
-- Contracts
-- Shop
-- Crafting
+### Difficulty (Not Fully Implemented)
+- Easy: DC-2, Damage×0.7, Rewards×1.2
+- Normal: DC+0, Damage×1.0, Rewards×1.0
+- Hard: DC+2, Damage×1.3, Rewards×1.0
 
-**Phase 4**: Polish
-- Save/load
-- Balance
-- Visual effects
-- Audio
+---
 
-### 📝 Notes
+## 🔧 Next Steps (Post-MVP)
 
-- All game logic is declarative and data-driven
-- AI-friendly architecture for content generation
-- Designed for single-player web play
-- Desktop-first, mobile optional future enhancement
+### Balance & Polish
+- [ ] Playtest and balance all cards
+- [ ] Tune enemy HP and damage
+- [ ] Adjust gold/reward economy
+- [ ] Add visual effects (Pixi.js particles)
+- [ ] Add sound effects and music
 
-### 🔗 References
+### Feature Completion
+- [ ] Implement shop purchases
+- [ ] Implement crafting system
+- [ ] Implement contract tracking
+- [ ] Add card upgrade system
+- [ ] Add character leveling
+- [ ] Add more events (target: 20+)
+- [ ] Add more enemy types
+- [ ] Add more floors and bosses
 
-- Game Design Document (GDD v1.0)
-- Technical Design Document (TDD)
+### Advanced Systems
+- [ ] Multiple floors (currently 1)
+- [ ] Character death/revival mechanics
+- [ ] More professions and crafting recipes
+- [ ] More classes and racial abilities
+- [ ] Status effect interactions
+- [ ] Advanced AI patterns
+- [ ] Tutorial system
+
+---
+
+## 📝 Design Philosophy
+
+This MVP follows the GDD's core principles:
+
+1. **Minimalist UI**: Clean, readable interface
+2. **D&D Mechanics**: D20 rolls, stat checks, character classes
+3. **Card Tactics**: Energy system, deck building, combos
+4. **Roguelike**: Procedural generation, run-based gameplay
+5. **Role-play Logic**: Events with multiple solutions
+6. **Extraction**: Portal nodes allow safe exit
+
+---
+
+## 🎉 Conclusion
+
+**The MVP is complete and fully playable!**
+
+All core systems are implemented and functional. The game has a complete gameplay loop from menu to dungeon and back. Players can:
+
+- Explore procedurally generated dungeons
+- Fight enemies with turn-based card combat
+- Make choices in skill-based events
+- Manage resources (gold, supplies, HP)
+- Save and continue their progress
+
+The foundation is solid and ready for content expansion, balance tuning, and polish.
 
 ---
 
 **Last Updated**: 2025-01-18
-**Version**: 0.1.0 (Foundation)
-**Status**: In Active Development
+**Build Status**: ✅ Passing (npm run build successful)
+**Play Status**: ✅ Fully Playable
