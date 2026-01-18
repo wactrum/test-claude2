@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-100 font-sans;
+  }
+}
+
+@layer components {
+  /* Game UI Components */
+  .card-container {
+    @apply bg-slate-800/80 backdrop-blur-sm rounded-lg border border-slate-700 shadow-xl;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors duration-200;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200;
+  }
+
+  .stat-box {
+    @apply flex flex-col items-center p-2 bg-slate-700/50 rounded-md;
+  }
+
+  .glow-effect {
+    @apply shadow-lg shadow-blue-500/50;
+  }
+
+  .hp-bar {
+    @apply h-2 bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-300;
+  }
+}
