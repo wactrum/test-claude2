@@ -88,25 +88,104 @@
         <!-- Contracts Tab -->
         <div v-else-if="activeTab === 'contracts'" class="space-y-4">
           <h2 class="text-2xl font-bold mb-4">Contracts</h2>
-          <p class="text-slate-400">Contract system coming soon...</p>
+          <p class="text-sm text-slate-400 mb-4">Accept contracts to earn rewards. Max 2 active.</p>
+
+          <div class="space-y-3">
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Clear the Goblin Den</h3>
+              <p class="text-sm text-slate-400 mb-2">Defeat 10 goblins</p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-400">Reward: 100 Gold</span>
+                <button class="btn-primary text-sm px-3 py-1">Accept</button>
+              </div>
+            </div>
+
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Explore Deep</h3>
+              <p class="text-sm text-slate-400 mb-2">Reach floor 3</p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-400">Reward: 150 Gold</span>
+                <button class="btn-primary text-sm px-3 py-1">Accept</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Shop Tab -->
         <div v-else-if="activeTab === 'shop'" class="space-y-4">
           <h2 class="text-2xl font-bold mb-4">Shop</h2>
-          <p class="text-slate-400">Shop system coming soon...</p>
+          <p class="text-sm text-slate-400 mb-4">Buy cards and items with gold</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Healing Potion</h3>
+              <p class="text-xs text-slate-400 mb-3">Restore 30 HP</p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-400">20 Gold</span>
+                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+              </div>
+            </div>
+
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Power Strike Card</h3>
+              <p class="text-xs text-slate-400 mb-3">Deal 15 damage</p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-400">75 Gold</span>
+                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+              </div>
+            </div>
+
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Supplies Pack</h3>
+              <p class="text-xs text-slate-400 mb-3">+3 Supplies</p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-400">30 Gold</span>
+                <button class="btn-primary text-sm px-3 py-1">Buy</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Craft Tab -->
         <div v-else-if="activeTab === 'craft'" class="space-y-4">
           <h2 class="text-2xl font-bold mb-4">Crafting</h2>
-          <p class="text-slate-400">Crafting system coming soon...</p>
+          <p class="text-sm text-slate-400 mb-4">Craft items using materials and professions</p>
+
+          <div class="space-y-3">
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Iron Sword</h3>
+              <p class="text-xs text-slate-400 mb-2">Requires: Blacksmith profession</p>
+              <p class="text-xs text-slate-300 mb-3">Materials: Iron Ore x2, Gold: 50</p>
+              <button class="btn-primary text-sm px-3 py-1" disabled>
+                Craft (Missing Materials)
+              </button>
+            </div>
+
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">Health Elixir</h3>
+              <p class="text-xs text-slate-400 mb-2">Requires: Alchemist profession</p>
+              <p class="text-xs text-slate-300 mb-3">Materials: Herbs x3, Gold: 30</p>
+              <button class="btn-primary text-sm px-3 py-1" disabled>
+                Craft (Missing Materials)
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Lore Tab -->
         <div v-else-if="activeTab === 'lore'" class="space-y-4">
           <h2 class="text-2xl font-bold mb-4">Lore Archive</h2>
-          <p class="text-slate-400">Lore archive coming soon...</p>
+          <p class="text-sm text-slate-400 mb-4">Discover the secrets of the dungeon</p>
+
+          <div class="space-y-3">
+            <div class="card-container p-4">
+              <h3 class="font-bold mb-2">The Ancient Ruins</h3>
+              <p class="text-sm text-slate-300">
+                Long ago, these halls were home to a prosperous civilization.
+                What caused their downfall remains a mystery...
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
