@@ -77,8 +77,16 @@ function selectOption(option: EventOption) {
     }
 
     const character = aliveChars[0] // Simplified - use first character
-    const stat = character.stats[option.check.stat]
-    const modifier = Math.floor((stat - 10) / 2)
+
+    // Get stat value (handle initiative separately)
+    let statValue = 10
+    if (option.check.stat === 'initiative') {
+      statValue = character.stats.dex // Initiative uses dexterity
+    } else {
+      statValue = character.stats[option.check.stat]
+    }
+
+    const modifier = Math.floor((statValue - 10) / 2)
     const roll = Math.floor(Math.random() * 20) + 1
 
     // Apply difficulty modifier
