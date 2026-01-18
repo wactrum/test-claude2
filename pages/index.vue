@@ -101,13 +101,37 @@ function handleNodeSelected(nodeId: string) {
       break
 
     case 'rest':
-      // Handle rest node
+      // Use supply and heal party
+      if (partyStore.useSupply()) {
+        partyStore.characters.forEach(char => {
+          partyStore.healCharacter(char.id, Math.floor(char.maxHp * 0.5))
+        })
+      }
+      dungeonStore.completeNode()
+      gameStore.setScene('dungeon')
+      break
+
+    case 'resource':
+      // Give gold and items
+      partyStore.addGold(Math.floor(Math.random() * 30) + 20)
+      dungeonStore.completeNode()
+      gameStore.setScene('dungeon')
       break
 
     case 'portal':
       // Return to hub
+      runStore.endRun()
       gameStore.setScene('hub')
       switchScene('hub')
+      break
+
+    case 'lore':
+      // Unlock lore
+      if (node.loreId) {
+        gameStore.unlockLore(node.loreId)
+      }
+      dungeonStore.completeNode()
+      gameStore.setScene('dungeon')
       break
 
     default:

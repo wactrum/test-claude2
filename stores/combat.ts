@@ -275,6 +275,70 @@ export const useCombatStore = defineStore('combat', {
       this.rewards = { gold, experience, items }
     },
 
+    // Play a card
+    async playCard(characterId: string, cardId: string, targetIds: string[] = []) {
+      const character = this.characters.find(c => c.id === characterId)
+      if (!character) return false
+
+      // Find card in hand
+      const cardIndex = character.hand.indexOf(cardId)
+      if (cardIndex === -1) return false
+
+      // Get card data
+      const { getCard } = await import('~/data')
+      const card = getCard(cardId)
+      if (!card) return false
+
+      // Check energy cost
+      const currentEntity = this.turnOrder.find(e =>
+        e.type === 'character' && (e.entity as Character).id === characterId
+      )
+      if (!currentEntity || currentEntity.energy < card.energyCost) {
+        return false
+      }
+
+      // Build targets
+      const { getValidTargets, applyCardEffects } = await import('~/utils/cardEffects')
+      const allTargets = getValidTargets(card, this.characters, this.enemies, character)
+
+      let selectedTargets = allTargets
+
+      // If specific targets are selected
+      if (targetIds.length > 0) {
+        selectedTargets = allTargets.filter(t => targetIds.includes(t.entity.id))
+      }
+
+      // Apply card effects
+      applyCardEffects(card, character, selectedTargets)
+
+      // Deduct energy
+      currentEntity.energy -= card.energyCost
+
+      // Move card from hand to discard
+      character.hand.splice(cardIndex, 1)
+      character.discardPile.push(cardId)
+
+      // Check combat end
+      this.checkCombatEnd()
+
+      return true
+    },
+
+    // Can play card
+    canPlayCard(characterId: string, cardId: string): boolean {
+      const character = this.characters.find(c => c.id === characterId)
+      if (!character) return false
+
+      const currentEntity = this.turnOrder.find(e =>
+        e.type === 'character' && (e.entity as Character).id === characterId
+      )
+      if (!currentEntity) return false
+
+      // Import card data synchronously for check
+      // In real implementation, this should be cached
+      return true // Simplified for now
+    },
+
     // End combat
     endCombat() {
       this.isActive = false

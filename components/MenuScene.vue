@@ -96,6 +96,7 @@
 
 <script setup lang="ts">
 import { useGameStore } from '~/stores/game'
+import { hasSaveFile, loadGame, deleteSaveFile } from '~/utils/saveLoad'
 
 const emit = defineEmits<{
   (e: 'start-game'): void
@@ -103,22 +104,28 @@ const emit = defineEmits<{
 
 const gameStore = useGameStore()
 const showSettings = ref(false)
-const hasSaveGame = ref(false) // TODO: Check for actual save game
+const hasSaveGame = ref(false)
 
 function newGame() {
+  // Delete old save if exists
+  if (hasSaveFile()) {
+    deleteSaveFile()
+  }
   emit('start-game')
 }
 
-function continueGame() {
-  // TODO: Load save game
+async function continueGame() {
   if (hasSaveGame.value) {
-    emit('start-game')
+    const success = await loadGame()
+    if (success) {
+      emit('start-game')
+    } else {
+      console.error('Failed to load save')
+    }
   }
 }
 
 onMounted(() => {
-  // TODO: Check for save game in localStorage
-  const savedGame = localStorage.getItem('card-roguelike-save')
-  hasSaveGame.value = !!savedGame
+  hasSaveGame.value = hasSaveFile()
 })
 </script>

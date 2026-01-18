@@ -116,6 +116,7 @@
 <script setup lang="ts">
 import { usePartyStore } from '~/stores/party'
 import { useHubStore } from '~/stores/hub'
+import { saveGame } from '~/utils/saveLoad'
 import type { Character, Race, Class, Profession } from '~/types'
 import { RACES, CLASSES, PROFESSIONS } from '~/data'
 
@@ -127,11 +128,26 @@ const partyStore = usePartyStore()
 const hubStore = useHubStore()
 const activeTab = ref('party')
 
+// Auto-save when leaving hub
 function enterDungeon() {
   if (partyStore.aliveCharacters.length > 0) {
+    saveGame()
     emit('enter-dungeon')
   }
 }
+
+// Auto-save periodically
+onMounted(() => {
+  const saveInterval = setInterval(() => {
+    saveGame()
+  }, 30000) // Save every 30 seconds
+
+  onUnmounted(() => {
+    clearInterval(saveInterval)
+    saveGame() // Final save on unmount
+  })
+})
+
 
 function createParty() {
   // Create a default party for testing
